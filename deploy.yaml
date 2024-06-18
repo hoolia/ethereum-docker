@@ -1,16 +1,33 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: geth-node
+    annotations:
+        alpha.image.policy.openshift.io/resolve-names: "*"
+        app.openshift.io/route-disabled: "false"
+        deployment.kubernetes.io/revision: "2"
+        image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"hoolia-geth-node:latest","namespace":"customer-rpc-node"},"fieldPath":"spec.template.spec.containers[?(@.name==\"hoolia-geth-node\")].image","paused":"false"}]'
+        openshift.io/generated-by: OpenShiftWebConsole
+    generation: 2
+    labels:
+        app: hoolia-geth-node
+        app.kubernetes.io/component: hoolia-geth-node
+        app.kubernetes.io/instance: hoolia-geth-node
+        app.kubernetes.io/name: hoolia-geth-node
+        app.kubernetes.io/part-of: geth-node-app
+        app.openshift.io/runtime: hoolia-geth-node
+        app.openshift.io/runtime-namespace: customer-rpc-node
+        app.openshift.io/runtime-version: latest
+    name: hoolia-geth-node
     namespace: customer-rpc-node
+    resourceVersion: "2718172"
+    uid: 41b4cbd8-71ee-4ea0-9342-4d623067dfc8
 spec:
     progressDeadlineSeconds: 600
     replicas: 1
     revisionHistoryLimit: 10
     selector:
         matchLabels:
-            app: geth-node
+            app: hoolia-geth-node
     strategy:
         rollingUpdate:
             maxSurge: 25%
@@ -22,24 +39,24 @@ spec:
                 openshift.io/generated-by: OpenShiftWebConsole
             creationTimestamp: null
             labels:
-                app: geth-node
-                deployment: geth-node
+                app: hoolia-geth-node
+                deployment: hoolia-geth-node
         spec:
             containers:
-                - image: image-registry.openshift-image-registry.svc:5000/customer-rpc-node/hoolia-geth-node
+                - image: image-registry.openshift-image-registry.svc:5000/customer-rpc-node/hoolia-geth-node@sha256:a5c72bd91ddcd2001afafe9d9a0091fe1be8b35b084f34f2668c4c99da459bed
                   imagePullPolicy: IfNotPresent
-                  name: geth-node
+                  name: hoolia-geth-node
                   ports:
+                      - containerPort: 30303
+                        protocol: TCP
+                      - containerPort: 30303
+                        protocol: UDP
                       - containerPort: 8545
                         protocol: TCP
                       - containerPort: 8546
                         protocol: TCP
                       - containerPort: 8547
                         protocol: TCP
-                      - containerPort: 30303
-                        protocol: TCP
-                      - containerPort: 30303
-                        protocol: UDP
                   resources: {}
                   terminationMessagePath: /dev/termination-log
                   terminationMessagePolicy: File
