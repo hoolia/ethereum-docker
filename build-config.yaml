@@ -1,0 +1,24 @@
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+    name: geth-node
+    labels:
+        app: geth-node
+spec:
+    failedBuildsHistoryLimit: 1
+    successfulBuildsHistoryLimit: 1
+    source:
+        type: Git
+        git:
+            uri: https://github.com/hoolia/ethereum-docker
+            ref: master
+        contextDir:
+    strategy:
+        type: Docker
+        dockerStrategy:
+            dockerfilePath: Dockerfile
+    output:
+        to:
+            kind: ImageStreamTag
+            name: geth-node:latest

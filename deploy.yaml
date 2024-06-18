@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: geth-node
+    namespace: customer-rpc-node
+spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+        matchLabels:
+            app: geth-node
+    strategy:
+        rollingUpdate:
+            maxSurge: 25%
+            maxUnavailable: 25%
+        type: RollingUpdate
+    template:
+        metadata:
+            annotations:
+                openshift.io/generated-by: OpenShiftWebConsole
+            creationTimestamp: null
+            labels:
+                app: geth-node
+                deployment: geth-node
+        spec:
+            containers:
+                - image: image-registry.openshift-image-registry.svc:5000/customer-rpc-node/geth-node
+                  imagePullPolicy: IfNotPresent
+                  name: geth-node
+                  ports:
+                      - containerPort: 30303
+                        protocol: TCP
+                      - containerPort: 30303
+                        protocol: UDP
+                      - containerPort: 8545
+                        protocol: TCP
+                  resources: {}
+                  terminationMessagePath: /dev/termination-log
+                  terminationMessagePolicy: File
+                  volumeMounts:
+                      - mountPath: /.ethash
+                        name: geth-hash
+                      - mountPath: /.ethereum
+                        name: geth-sync
+            dnsPolicy: ClusterFirst
+            restartPolicy: Always
+            schedulerName: default-scheduler
+            securityContext: {}
+            terminationGracePeriodSeconds: 30
+            volumes:
+                - name: geth-hash
+                  persistentVolumeClaim:
+                      claimName: geth-hash
+                - name: geth-sync
+                  persistentVolumeClaim:
+                      claimName: geth-sync
