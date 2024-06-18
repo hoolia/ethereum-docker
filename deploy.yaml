@@ -26,7 +26,8 @@ spec:
                 deployment: geth-node
         spec:
             containers:
-                - image: image-registry.openshift-image-registry.svc:5000/customer-rpc-node/geth-node
+                - image: |
+                      image-registry.openshift-image-registry.svc:5000/customer-rpc-node/geth-node@sha256:fa28947faef0c31e22a7f6c92981bba75b6430849de1cb255c9f3bc1363e2a92
                   imagePullPolicy: IfNotPresent
                   name: geth-node
                   ports:
