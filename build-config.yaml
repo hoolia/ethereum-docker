@@ -21,4 +21,4 @@ spec:
     output:
         to:
             kind: ImageStreamTag
-            name: geth-node:latest
+            name: hoolia-geth-node:latest

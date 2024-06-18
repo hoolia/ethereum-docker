@@ -2,6 +2,6 @@
 kind: ImageStream
 apiVersion: image.openshift.io/v1
 metadata:
-    name: geth-node
+    name: hoolia-geth-node
     namespace: customer-rpc-node
     tag: latest
