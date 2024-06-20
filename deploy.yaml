@@ -19,8 +19,8 @@ metadata:
         app.openshift.io/runtime-version: latest
     name: hoolia-geth-node
     namespace: customer-rpc-node
-    resourceVersion: "2718172"
-    uid: 41b4cbd8-71ee-4ea0-9342-4d623067dfc8
+    resourceVersion: "5191465"
+    uid: dd41a96a-5e3d-42be-aaab-ade62874564a
 spec:
     progressDeadlineSeconds: 600
     replicas: 1
@@ -43,7 +43,7 @@ spec:
                 deployment: hoolia-geth-node
         spec:
             containers:
-                - image: image-registry.openshift-image-registry.svc:5000/customer-rpc-node/hoolia-geth-node@sha256:a5c72bd91ddcd2001afafe9d9a0091fe1be8b35b084f34f2668c4c99da459bed
+                - image: image-registry.openshift-image-registry.svc:5000/customer-rpc-node/hoolia-geth-node@sha256:a3b7b18f9fdf5808f6062890366b928ff1c724e426d811ef65566b0d3950b010
                   imagePullPolicy: IfNotPresent
                   name: hoolia-geth-node
                   ports:
