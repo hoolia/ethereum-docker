@@ -11,4 +11,4 @@ EXPOSE 30303/TCP
 EXPOSE 30303/UDP
 
 
-ENTRYPOINT geth --syncmode full
+ENTRYPOINT geth --syncmode full --http --http.api eth,net,web3 --http.corsdomain '*' --ws --ws.api eth,net,web3
