@@ -1,38 +1,28 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  annotations:
-    openshift.io/host.generated: "true"
-  creationTimestamp: "2024-06-20T12:08:23Z"
-  labels:
-    app: hoolia-geth-node
-    app.kubernetes.io/component: hoolia-geth-node
-    app.kubernetes.io/instance: hoolia-geth-node
-    app.kubernetes.io/name: hoolia-geth-node
-    app.kubernetes.io/part-of: hoolia-geth-node-app
-  name: hoolia-geth-node
-  namespace: customer-rpc-node
-  resourceVersion: "5214279"
-  uid: ce83478d-750d-4fdc-adb4-62b905eca75c
-spec:
-  host: hoolia-geth-node-customer-rpc-node.apps.c01.eu-west-01.openshift.eu
-  port:
-    targetPort: 30303-tcp
-  tls:
-    insecureEdgeTerminationPolicy: Redirect
-    termination: edge
-  to:
-    kind: Service
+    annotations:
+        openshift.io/host.generated: "true"
+    creationTimestamp: "2024-06-20T12:08:23Z"
+    labels:
+        app: hoolia-geth-node
+        app.kubernetes.io/component: hoolia-geth-node
+        app.kubernetes.io/instance: hoolia-geth-node
+        app.kubernetes.io/name: hoolia-geth-node
+        app.kubernetes.io/part-of: hoolia-geth-node-app
     name: hoolia-geth-node
-    weight: 100
-  wildcardPolicy: None
-status:
-  ingress:
-  - conditions:
-    - lastTransitionTime: "2024-06-20T12:08:32Z"
-      status: "True"
-      type: Admitted
+    namespace: customer-rpc-node
+    resourceVersion: "5214279"
+    uid: ce83478d-750d-4fdc-adb4-62b905eca75c
+spec:
     host: hoolia-geth-node-customer-rpc-node.apps.c01.eu-west-01.openshift.eu
-    routerCanonicalHostname: router-default.apps.c01.eu-west-01.openshift.eu
-    routerName: default
+    port:
+        targetPort: 30303-tcp
+    tls:
+        insecureEdgeTerminationPolicy: Redirect
+        termination: edge
+    to:
+        kind: Service
+        name: hoolia-geth-node
+        weight: 100
     wildcardPolicy: None
