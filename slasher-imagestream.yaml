@@ -2,15 +2,15 @@ apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
     labels:
-        io.kompose.service: geth
-    name: geth
+        io.kompose.service: slasher
+    name: slasher
 spec:
     lookupPolicy:
         local: false
     tags:
         - from:
             kind: DockerImage
-            name: ethereum/client-go:v1.9.14
-          name: v1.9.14
+            name: 'gcr.io/prysmaticlabs/prysm/slasher:'
+          name: ""
           referencePolicy:
             type: ""

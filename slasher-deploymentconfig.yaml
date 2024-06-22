@@ -1,0 +1,50 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+    labels:
+        io.kompose.service: slasher
+    name: slasher
+spec:
+    replicas: 1
+    selector:
+        io.kompose.service: slasher
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            labels:
+                io.kompose.network/downloads-default: "true"
+                io.kompose.service: slasher
+        spec:
+            containers:
+                - args:
+                    - --config-file=/config/slasher.yaml
+                  image: ' '
+                  name: slasher
+                  volumeMounts:
+                    - mountPath: /config/slasher.yaml
+                      name: slasher-claim0
+                      readOnly: true
+                    - mountPath: /data
+                      name: slasher-claim1
+            hostname: slasher
+            restartPolicy: Always
+            volumes:
+                - name: slasher-claim0
+                  persistentVolumeClaim:
+                    claimName: slasher-claim0
+                    readOnly: true
+                - name: slasher-claim1
+                  persistentVolumeClaim:
+                    claimName: slasher-claim1
+    test: false
+    triggers:
+        - type: ConfigChange
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+                - slasher
+            from:
+                kind: ImageStreamTag
+                name: 'slasher:'
+          type: ImageChange

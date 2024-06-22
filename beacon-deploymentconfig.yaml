@@ -1,0 +1,61 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+    labels:
+        io.kompose.service: beacon
+    name: beacon
+spec:
+    replicas: 1
+    selector:
+        io.kompose.service: beacon
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            labels:
+                io.kompose.network/downloads-default: "true"
+                io.kompose.service: beacon
+        spec:
+            containers:
+                - args:
+                    - --config-file=/config/beacon.yaml
+                  image: ' '
+                  name: beacon-chain
+                  ports:
+                    - containerPort: 4000
+                      hostIP: 127.0.0.1
+                      hostPort: 4000
+                      protocol: TCP
+                    - containerPort: 13000
+                      hostPort: 13000
+                      protocol: TCP
+                    - containerPort: 12000
+                      hostPort: 12000
+                      protocol: UDP
+                  volumeMounts:
+                    - mountPath: /config/beacon.yaml
+                      name: beacon-claim0
+                      readOnly: true
+                    - mountPath: /data
+                      name: beacon-claim1
+            hostname: beacon-chain
+            restartPolicy: Always
+            volumes:
+                - name: beacon-claim0
+                  persistentVolumeClaim:
+                    claimName: beacon-claim0
+                    readOnly: true
+                - name: beacon-claim1
+                  persistentVolumeClaim:
+                    claimName: beacon-claim1
+    test: false
+    triggers:
+        - type: ConfigChange
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+                - beacon-chain
+            from:
+                kind: ImageStreamTag
+                name: 'beacon:'
+          type: ImageChange
