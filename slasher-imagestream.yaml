@@ -9,8 +9,8 @@ spec:
         local: false
     tags:
         - from:
-            kind: DockerImage
-            name: 'gcr.io/prysmaticlabs/prysm/slasher:'
+              kind: DockerImage
+              name: "gcr.io/prysmaticlabs/prysm/slasher:"
           name: ""
           referencePolicy:
-            type: ""
+              type: ""

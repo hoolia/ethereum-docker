@@ -8,26 +8,26 @@ metadata:
 spec:
     containers:
         - args:
-            - --storage.tsdb.retention.time=31d
-            - --config.file=/etc/prometheus/prometheus.yml
+              - --storage.tsdb.retention.time=31d
+              - --config.file=/etc/prometheus/prometheus.yml
           image: prom/prometheus:v2.19.0
           name: prometheus
           ports:
-            - containerPort: 9090
-              hostIP: 127.0.0.1
-              hostPort: 9090
-              protocol: TCP
+              - containerPort: 9090
+                hostIP: 127.0.0.1
+                hostPort: 9090
+                protocol: TCP
           volumeMounts:
-            - mountPath: /etc/prometheus/prometheus.yml
-              name: prometheus-claim0
-            - mountPath: /prometheus
-              name: prometheus-claim1
+              - mountPath: /etc/prometheus/prometheus.yml
+                name: prometheus-claim0
+              - mountPath: /prometheus
+                name: prometheus-claim1
     hostname: prometheus
     restartPolicy: OnFailure
     volumes:
         - name: prometheus-claim0
           persistentVolumeClaim:
-            claimName: prometheus-claim0
+              claimName: prometheus-claim0
         - name: prometheus-claim1
           persistentVolumeClaim:
-            claimName: prometheus-claim1
+              claimName: prometheus-claim1

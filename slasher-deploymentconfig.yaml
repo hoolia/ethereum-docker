@@ -18,33 +18,33 @@ spec:
         spec:
             containers:
                 - args:
-                    - --config-file=/config/slasher.yaml
-                  image: ' '
+                      - --config-file=/config/slasher.yaml
+                  image: " "
                   name: slasher
                   volumeMounts:
-                    - mountPath: /config/slasher.yaml
-                      name: slasher-claim0
-                      readOnly: true
-                    - mountPath: /data
-                      name: slasher-claim1
+                      - mountPath: /config/slasher.yaml
+                        name: slasher-claim0
+                        readOnly: true
+                      - mountPath: /data
+                        name: slasher-claim1
             hostname: slasher
             restartPolicy: Always
             volumes:
                 - name: slasher-claim0
                   persistentVolumeClaim:
-                    claimName: slasher-claim0
-                    readOnly: true
+                      claimName: slasher-claim0
+                      readOnly: true
                 - name: slasher-claim1
                   persistentVolumeClaim:
-                    claimName: slasher-claim1
+                      claimName: slasher-claim1
     test: false
     triggers:
         - type: ConfigChange
         - imageChangeParams:
-            automatic: true
-            containerNames:
-                - slasher
-            from:
-                kind: ImageStreamTag
-                name: 'slasher:'
+              automatic: true
+              containerNames:
+                  - slasher
+              from:
+                  kind: ImageStreamTag
+                  name: "slasher:"
           type: ImageChange

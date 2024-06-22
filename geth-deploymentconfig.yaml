@@ -18,43 +18,43 @@ spec:
         spec:
             containers:
                 - args:
-                    - --goerli
-                    - --rpc
-                    - --rpcport=8545
-                    - --rpcaddr=0.0.0.0
-                    - --rpcvhosts=*
-                    - --allow-insecure-unlock
-                    - --rpcapi=db,eth,net,web3,personal
-                  image: ' '
+                      - --goerli
+                      - --rpc
+                      - --rpcport=8545
+                      - --rpcaddr=0.0.0.0
+                      - --rpcvhosts=*
+                      - --allow-insecure-unlock
+                      - --rpcapi=db,eth,net,web3,personal
+                  image: " "
                   name: geth
                   ports:
-                    - containerPort: 30303
-                      hostPort: 30303
-                      protocol: TCP
-                    - containerPort: 30303
-                      hostPort: 30303
-                      protocol: UDP
-                    - containerPort: 8545
-                      hostIP: 127.0.0.1
-                      hostPort: 8545
-                      protocol: TCP
+                      - containerPort: 30303
+                        hostPort: 30303
+                        protocol: TCP
+                      - containerPort: 30303
+                        hostPort: 30303
+                        protocol: UDP
+                      - containerPort: 8545
+                        hostIP: 127.0.0.1
+                        hostPort: 8545
+                        protocol: TCP
                   volumeMounts:
-                    - mountPath: /root/.ethereum
-                      name: geth-claim0
+                      - mountPath: /root/.ethereum
+                        name: geth-claim0
             hostname: geth
             restartPolicy: Always
             volumes:
                 - name: geth-claim0
                   persistentVolumeClaim:
-                    claimName: geth-claim0
+                      claimName: geth-claim0
     test: false
     triggers:
         - type: ConfigChange
         - imageChangeParams:
-            automatic: true
-            containerNames:
-                - geth
-            from:
-                kind: ImageStreamTag
-                name: geth:v1.9.14
+              automatic: true
+              containerNames:
+                  - geth
+              from:
+                  kind: ImageStreamTag
+                  name: geth:v1.9.14
           type: ImageChange

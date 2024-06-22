@@ -8,22 +8,22 @@ metadata:
 spec:
     containers:
         - args:
-            - --config-file=/config/validator.yaml
-          image: 'gcr.io/prysmaticlabs/prysm/validator:'
+              - --config-file=/config/validator.yaml
+          image: "gcr.io/prysmaticlabs/prysm/validator:"
           name: validator
           volumeMounts:
-            - mountPath: /config/validator.yaml
-              name: validator-claim0
-              readOnly: true
-            - mountPath: /data
-              name: validator-claim1
+              - mountPath: /config/validator.yaml
+                name: validator-claim0
+                readOnly: true
+              - mountPath: /data
+                name: validator-claim1
     hostname: validator
     restartPolicy: OnFailure
     volumes:
         - name: validator-claim0
           persistentVolumeClaim:
-            claimName: validator-claim0
-            readOnly: true
+              claimName: validator-claim0
+              readOnly: true
         - name: validator-claim1
           persistentVolumeClaim:
-            claimName: validator-claim1
+              claimName: validator-claim1
