@@ -10,7 +10,7 @@ spec:
     tags:
         - from:
               kind: DockerImage
-              name: "gcr.io/prysmaticlabs/prysm/beacon-chain:"
+              name: "gcr.io/prysmaticlabs/prysm/beacon-chain:HEAD-c59edb"
           name: ""
           referencePolicy:
               type: ""
