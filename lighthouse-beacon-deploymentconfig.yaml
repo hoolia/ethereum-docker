@@ -1,0 +1,101 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+    creationTimestamp: null
+    labels:
+        io.kompose.service: lighthouse-beacon
+    name: lighthouse-beacon
+spec:
+    replicas: 1
+    selector:
+        io.kompose.service: lighthouse-beacon
+    strategy:
+        resources: {}
+        type: Recreate
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                io-kompose-network-default: "true"
+                io-kompose-network-stereum-admin: "true"
+                io.kompose.service: lighthouse-beacon
+        spec:
+            containers:
+                - command:
+                      - /opt/app/start/beacon.sh
+                  env:
+                      - name: DATADIR
+                        valueFrom:
+                            configMapKeyRef:
+                                key: DATADIR
+                                name: config-lighthouse-beacon-env
+                      - name: DEBUG_LEVEL
+                        valueFrom:
+                            configMapKeyRef:
+                                key: DEBUG_LEVEL
+                                name: config-lighthouse-beacon-env
+                      - name: ETH1_NODES
+                        valueFrom:
+                            configMapKeyRef:
+                                key: ETH1_NODES
+                                name: config-lighthouse-beacon-env
+                      - name: NETWORK
+                        valueFrom:
+                            configMapKeyRef:
+                                key: NETWORK
+                                name: config-lighthouse-beacon-env
+                      - name: SLASHERDIR
+                        valueFrom:
+                            configMapKeyRef:
+                                key: SLASHERDIR
+                                name: config-lighthouse-beacon-env
+                      - name: SLASHER_DB_SIZE
+                        valueFrom:
+                            configMapKeyRef:
+                                key: SLASHER_DB_SIZE
+                                name: config-lighthouse-beacon-env
+                  image: " "
+                  name: lighthouse-beacon
+                  ports:
+                      - containerPort: 5052
+                      - containerPort: 5054
+                      - containerPort: 9000
+                      - containerPort: 9000
+                        protocol: UDP
+                  resources:
+                      limits:
+                          cpu: "4"
+                          memory: "10737418240"
+                  securityContext:
+                      runAsUser: 2000
+                  volumeMounts:
+                      - mountPath: /opt/app/beacon
+                        name: lighthouse-beacon-claim0
+                      - mountPath: /opt/app/slasher
+                        name: lighthouse-beacon-claim1
+            restartPolicy: Always
+            volumes:
+                - name: lighthouse-beacon-claim0
+                  persistentVolumeClaim:
+                      claimName: lighthouse-beacon-claim0
+                - name: lighthouse-beacon-claim1
+                  persistentVolumeClaim:
+                      claimName: lighthouse-beacon-claim1
+    test: false
+    triggers:
+        - type: ConfigChange
+        - imageChangeParams:
+              automatic: true
+              containerNames:
+                  - lighthouse-beacon
+              from:
+                  kind: ImageStreamTag
+                  name: lighthouse-beacon:v1.5.0-43
+          type: ImageChange
+status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0

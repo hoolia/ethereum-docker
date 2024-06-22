@@ -1,0 +1,22 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+    creationTimestamp: null
+    labels:
+        io.kompose.service: geth
+    name: geth
+spec:
+    lookupPolicy:
+        local: false
+    tags:
+        - annotations: null
+          from:
+              kind: DockerImage
+              name: ethereum/client-go:v1.10.8
+          generation: null
+          importPolicy: {}
+          name: ""
+          referencePolicy:
+              type: ""
+status:
+    dockerImageRepository: ""

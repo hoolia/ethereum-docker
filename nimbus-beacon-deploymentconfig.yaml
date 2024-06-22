@@ -1,0 +1,83 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+    creationTimestamp: null
+    labels:
+        io.kompose.service: nimbus-beacon
+    name: nimbus-beacon
+spec:
+    replicas: 1
+    selector:
+        io.kompose.service: nimbus-beacon
+    strategy:
+        resources: {}
+        type: Recreate
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                io-kompose-network-default: "true"
+                io-kompose-network-stereum-admin: "true"
+                io.kompose.service: nimbus-beacon
+        spec:
+            containers:
+                - args:
+                      - --network=pyrmont
+                      - --data-dir=/opt/app/beacon
+                      - --web3-url=ws://geth:8545
+                      - --tcp-port=9000
+                      - --udp-port=9000
+                      - --rpc
+                      - --rpc-port=9190
+                      - --metrics
+                      - --metrics-port=8008
+                      - --metrics-address=0.0.0.0
+                      - --rest
+                      - --rest-address=0.0.0.0
+                  image: " "
+                  name: nimbus-beacon
+                  ports:
+                      - containerPort: 9190
+                      - containerPort: 9000
+                      - containerPort: 9000
+                        protocol: UDP
+                  resources:
+                      limits:
+                          cpu: "4"
+                          memory: "10737418240"
+                  volumeMounts:
+                      - mountPath: /opt/app/beacon
+                        name: nimbus-beacon-claim0
+                      - mountPath: /opt/app/validators
+                        name: nimbus-beacon-claim1
+                      - mountPath: /opt/app/secrets
+                        name: nimbus-beacon-claim2
+            restartPolicy: Always
+            volumes:
+                - name: nimbus-beacon-claim0
+                  persistentVolumeClaim:
+                      claimName: nimbus-beacon-claim0
+                - name: nimbus-beacon-claim1
+                  persistentVolumeClaim:
+                      claimName: nimbus-beacon-claim1
+                - name: nimbus-beacon-claim2
+                  persistentVolumeClaim:
+                      claimName: nimbus-beacon-claim2
+    test: false
+    triggers:
+        - type: ConfigChange
+        - imageChangeParams:
+              automatic: true
+              containerNames:
+                  - nimbus-beacon
+              from:
+                  kind: ImageStreamTag
+                  name: nimbus-beacon:v1.4.2-33
+          type: ImageChange
+status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
