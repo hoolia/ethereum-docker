@@ -4,15 +4,15 @@ metadata:
   annotations:
   labels:
     app: eth-cli
-  name: geth-claim
+  name: lighthouse-claim
   namespace: ethernode
 spec:
   accessModes:
   - ReadWriteOnce
   resources:
     limits:
-      storage: 700Gi
+      storage: 200Gi
     requests:
-      storage: 700Gi
+      storage: 200Gi
   storageClassName: piraeus-storage
   volumeMode: Filesystem
